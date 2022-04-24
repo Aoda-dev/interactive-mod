@@ -2,8 +2,6 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import Header from './Header'
-import MyAllQuizzes from './MyAllQuizzes'
 import TopQuizzes from './TopQuizzes'
 import { getDataOneTime, getMyPassedQuizzes, getMyPassedQuizzesImg, getMyQuizzesImg } from '../../../firebase/firebase'
 import Loader from '../../Loader/Loader'
@@ -35,12 +33,10 @@ const MyQuizzes = () => {
 
 			{!myQuizzesLoading && (
 				<>
-					<Header />
 					<div className='space-y-6 mt-10'>
 						{passedQuizzes.length > 0 && !myQuizzesLoading && <PassedQuizzes />}
 						{myQuizzes.length > 0 && !myQuizzesLoading && <TopQuizzes />}
 					</div>
-					{/* <MyAllQuizzes /> */}
 				</>
 			)}
 

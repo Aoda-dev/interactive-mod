@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Header from './Header'
 
 const TopQuizzes = () => {
 	const { myQuizzes, placeholderLoading } = useSelector((state) => state.myQuizzes)
@@ -9,7 +10,7 @@ const TopQuizzes = () => {
 
 	return (
 		<div className='space-y-6'>
-			<h2 className='text-2xl font-semibold'>Все тесты</h2>
+			<Header />
 
 			<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-6'>
 				{myQuizzes.map((item, index) => (

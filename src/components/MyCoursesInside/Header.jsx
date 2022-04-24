@@ -33,7 +33,7 @@ const Header = () => {
 						<div className='space-x-2 text-sm'>
 							<span>Создатель:</span>
 							<a href='' className='underline underline-offset-1'>
-								Kulseitov Tolegen
+								Gani Otegenov
 							</a>
 						</div>
 					</div>

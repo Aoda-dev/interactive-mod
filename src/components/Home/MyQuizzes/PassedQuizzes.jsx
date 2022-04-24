@@ -11,23 +11,23 @@ const TopQuizzes = () => {
 		<div className='space-y-6'>
 			<h2 className='text-2xl font-semibold'>Пройденные тесты</h2>
 
-			<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-6'>
+			<div className='flex flex-wrap flex-col items-center justify-center sm:flex-row md:justify-start'>
 				{passedQuizzes.map((item, index) => (
 					<div
 						key={index}
-						className='shadow-lg w-full cursor-pointer'
+						className='shadow-lg w-52 cursor-pointer mx-auto my-2 sm:mx-2'
 						onClick={() => navigate(`/home/quizzes/${item?.id}`)}
 					>
 						<div
 							data-placeholder={placeholderLoading ? true : false}
-							className='relative overflow-hidden w-full h-72 md:h-56 xl:h-96 bg-gray-200'
+							className='relative overflow-hidden w-52 h-52 bg-gray-200'
 						>
-							<img className='w-full h-72 md:h-56 xl:h-96 object-cover' src={item?.imgUrl} alt='' />
+							<img className='w-full h-full object-cover' src={item?.imgUrl} alt='' />
 						</div>
 
 						<div className='p-5'>
-							<p className='font-bold my-0.5'>{item?.data?.name}</p>
-							<span className='text-sm text-gray-500'>{item?.data?.quiz.length} вопросов</span>
+							<p className='font-semibold text-sm my-0.5'>{item?.data?.name}</p>
+							<span className='text-xs text-gray-500'>{item?.data?.quiz.length} вопросов</span>
 						</div>
 					</div>
 				))}

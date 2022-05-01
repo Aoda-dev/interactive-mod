@@ -16,6 +16,8 @@ import NotFound from './components/404/NotFound'
 import MyQuizzesResult from './components/Home/MyQuizzesResult/MyQuizzesResult'
 import MyCoursesInside from './components/MyCoursesInside/MyCoursesInside'
 import Login from './components/Login/Login'
+import CourseCreate from './components/CourseCreate/CourseCreate'
+import CourseEdit from './components/CourseCreate/CourseEdit'
 
 const App = () => {
 	const [firstLoad, setFirstLoad] = useState(true)
@@ -47,6 +49,17 @@ const App = () => {
 						<Route path='quizzes/:id/results' element={<MyQuizzesResult />} />
 						<Route path='mycourses' element={<MyCourses />} />
 						<Route path='courses/:id' element={<MyCoursesInside />} />
+					</Route>
+
+					<Route
+						path='/course/create'
+						element={
+							<ProtectedRoute>
+								<CourseCreate />
+							</ProtectedRoute>
+						}
+					>
+						<Route path='edit/:id' element={<CourseEdit />} />
 					</Route>
 
 					<Route

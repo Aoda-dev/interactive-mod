@@ -6,7 +6,12 @@ const MyCoursesAllCourses = () => {
 
 	return (
 		<div className='w-full px-0 pb-20 md:px-0'>
-			<h2 className='text-2xl font-semibold my-10'>Мои курсы</h2>
+			<div className='flex justify-between items-center'>
+				<h2 className='text-2xl font-semibold my-10'>Мои курсы</h2>
+				<button onClick={() => navigate('/course/create')} className='px-5 py-2 bg-indigo-500 text-white'>
+					Создать курс
+				</button>
+			</div>
 
 			<div className='flex flex-col space-y-6 pb-20'>
 				<div className='w-full flex flex-col shadow-lg md:flex-row'>

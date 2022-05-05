@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
-const CourseCreateModal = ({ closeModal, isOpen, createCourse }) => {
+const CourseCreateModal = ({ closeModal, isOpen, createCourseHandler }) => {
 	const [title, setTitle] = useState('')
 	const [error, setError] = useState(false)
 
@@ -10,7 +10,7 @@ const CourseCreateModal = ({ closeModal, isOpen, createCourse }) => {
 			return setError(true)
 		}
 
-		createCourse(title)
+		createCourseHandler(title)
 
 		setError(false)
 		setTitle('')

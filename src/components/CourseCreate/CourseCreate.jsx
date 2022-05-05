@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useLocation } from 'react-router-dom'
+import { createCourse } from '../../features/myCourses/myCourses'
 import CourseCreateModal from './CourseCreateModal'
 import Navbar from './Navbar'
 
 const CourseCreate = () => {
 	const { pathname } = useLocation()
-	const [courses, setCourses] = useState([])
+	const dispatch = useDispatch()
+	const { myCourses } = useSelector((state) => state.myCourses)
 
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -17,16 +20,16 @@ const CourseCreate = () => {
 		setIsOpen(true)
 	}
 
-	const createCourse = (title) => {
-		setCourses((prev) => [...prev, { id: courses.length, name: title }])
+	const createCourseHandler = (title) => {
+		dispatch(createCourse(title))
 		closeModal()
 	}
 
 	return (
 		<div className='flex overflow-hidden h-screen'>
-			<CourseCreateModal closeModal={closeModal} isOpen={isOpen} createCourse={createCourse} />
+			<CourseCreateModal closeModal={closeModal} isOpen={isOpen} createCourseHandler={createCourseHandler} />
 
-			<Navbar openModal={openModal} courses={courses} />
+			<Navbar openModal={openModal} myCourses={myCourses} />
 
 			<div className='w-full h-screen'>
 				{pathname === '/course/create' ? (

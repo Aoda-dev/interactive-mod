@@ -18,7 +18,7 @@ import {
 const NavMenu = () => {
 	const location = useLocation()
 
-	const { user, loading } = useSelector(state => state.user)
+	const { user, loading } = useSelector((state) => state.user)
 	const [isLocation, setIsLocation] = useState(location.pathname.slice(6))
 
 	const activeLink = 'bg-gradient-to-r from-white to-blue-100 border-r-4 border-blue-500'

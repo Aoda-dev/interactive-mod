@@ -16,7 +16,7 @@ const TopQuizzes = () => {
 				{myQuizzes.map((item, index) => (
 					<div
 						key={index}
-						className='shadow-lg w-52 cursor-pointer mx-auto my-2 sm:mx-2'
+						className='shadow-lg w-52 cursor-pointer mx-auto my-2 sm:mx-2 transition-all hover:scale-110'
 						onClick={() => navigate(`/home/quizzes/${item?.id}`)}
 					>
 						<div

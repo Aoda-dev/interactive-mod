@@ -17,7 +17,8 @@ import MyQuizzesResult from './components/Home/MyQuizzesResult/MyQuizzesResult'
 import MyCoursesInside from './components/MyCoursesInside/MyCoursesInside'
 import Login from './components/Login/Login'
 import CourseCreate from './components/CourseCreate/CourseCreate'
-import CourseEdit from './components/CourseCreate/CourseEdit'
+import CourseEdit from './components/CourseCreate/CourseEdit/CourseEdit'
+import CourseSection from './components/CourseCreate/CourseSection/CourseSection'
 
 const App = () => {
 	const [firstLoad, setFirstLoad] = useState(true)
@@ -60,6 +61,7 @@ const App = () => {
 						}
 					>
 						<Route path='edit/:id' element={<CourseEdit />} />
+						<Route path='edit/:id/:id' element={<CourseSection />} />
 					</Route>
 
 					<Route

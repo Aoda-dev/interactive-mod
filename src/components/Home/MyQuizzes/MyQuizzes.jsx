@@ -26,7 +26,7 @@ const MyQuizzes = () => {
 	}, [user?.uid])
 
 	return (
-		<div className='w-full relative px-3 pb-7 md:px-10'>
+		<div className='w-full relative px-0 pb-7 md:px-10'>
 			{myQuizzesLoading && (
 				<Loader className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/2' />
 			)}

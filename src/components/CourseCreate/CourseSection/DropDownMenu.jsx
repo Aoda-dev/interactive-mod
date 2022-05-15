@@ -3,7 +3,7 @@ import { Menu, Transition } from '@headlessui/react'
 import React from 'react'
 import { CourseSectionPlusIcon } from '../../../assets/svg/icons'
 
-const DropDownMenu = () => {
+const DropDownMenu = ({ openModal }) => {
 	return (
 		<Menu as='div' className='relative inline-block text-left'>
 			<div>
@@ -25,22 +25,14 @@ const DropDownMenu = () => {
 						<Menu.Item>
 							{({ active }) => (
 								<button
+									onClick={() => {
+										openModal()
+									}}
 									className={`${
 										active ? 'bg-violet-500 text-white' : 'text-gray-900'
 									} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
 								>
 									Добавить ссылку
-								</button>
-							)}
-						</Menu.Item>
-						<Menu.Item>
-							{({ active }) => (
-								<button
-									className={`${
-										active ? 'bg-violet-500 text-white' : 'text-gray-900'
-									} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-								>
-									Прикрепить документ
 								</button>
 							)}
 						</Menu.Item>

@@ -16,12 +16,12 @@ const TopQuizzes = () => {
 				{myQuizzes.map((item, index) => (
 					<div
 						key={index}
-						className='shadow-lg w-52 cursor-pointer mx-auto my-2 sm:mx-2 transition-all hover:scale-110'
+						className='shadow-lg w-64 cursor-pointer mx-auto my-2 sm:mx-2 transition-all hover:scale-110 md:w-52'
 						onClick={() => navigate(`/home/quizzes/${item?.id}`)}
 					>
 						<div
 							data-placeholder={placeholderLoading ? true : false}
-							className='relative overflow-hidden w-52 h-52 bg-gray-200'
+							className='relative overflow-hidden w-64 h-64 bg-gray-200 md:w-52 md:h-52'
 						>
 							<img className='w-full h-full object-cover' src={item?.imgUrl} alt='' />
 						</div>

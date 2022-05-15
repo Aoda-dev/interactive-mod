@@ -1,0 +1,35 @@
+[33mcommit d2d345d58131644edfad6b53c94910f422a08e85[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m)[m
+Author: Tolegen Kulseitov <hinokamiaoda@gmail.com>
+Date:   Fri May 6 02:39:38 2022 +0600
+
+    added more content sections
+
+[33mcommit 8790886435c7c2c2dc606e9f90ba5f18857199b5[m
+Author: Tolegen Kulseitov <hinokamiaoda@gmail.com>
+Date:   Mon May 2 00:05:23 2022 +0600
+
+    added courseedit and coursecreate
+
+[33mcommit 28da83e0365018a8714533cc8086b43ad595fba6[m
+Author: Tolegen Kulseitov <hinokamiaoda@gmail.com>
+Date:   Sun Apr 24 17:10:00 2022 +0600
+
+    nothing seroius
+
+[33mcommit b24c41cdefa34279a004dac397c86f5f23dd909e[m
+Author: Tolegen Kulseitov <hinokamiaoda@gmail.com>
+Date:   Sun Apr 24 17:07:31 2022 +0600
+
+    from grid to flex home/myquizzes
+
+[33mcommit ccb90ae9462f24f4704359da330a0911189e7d44[m
+Author: Tolegen Kulseitov <hinokamiaoda@gmail.com>
+Date:   Sun Apr 24 16:31:56 2022 +0600
+
+    changes myquizzes header title
+
+[33mcommit d85b89f6adafb0371b51b7992bdb7cc6421c12e4[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Tolegen Kulseitov <hinokamiaoda@gmail.com>
+Date:   Sun Apr 24 16:24:51 2022 +0600
+
+    inital commit

@@ -6,7 +6,7 @@ const Header = () => {
 	let navigate = useNavigate()
 
 	return (
-		<div className='flex justify-between items-center my-5'>
+		<div className='flex justify-between items-center px-5 my-5 md:px-0'>
 			<h2 className='text-2xl font-semibold'>Мой тесты</h2>
 			<div onClick={() => navigate('/quiz/create')} className='flex items-center cursor-pointer'>
 				<CreateQuizButtonIcon />

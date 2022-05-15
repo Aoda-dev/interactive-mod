@@ -220,4 +220,8 @@ export const deleteOneQuiz = async (id, imgId) => {
 		.catch((error) => console.log(error))
 }
 
+export const setDocumentToFirestorage = async (uid, document) => {
+	console.log('working')
+}
+
 export default app

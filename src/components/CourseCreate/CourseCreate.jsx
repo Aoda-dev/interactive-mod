@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useLocation } from 'react-router-dom'
-import { createCourse } from '../../features/myCourses/myCourses'
+import { createCourse, setMyCourses } from '../../features/myCourses/myCourses'
 import CourseCreateModal from './CourseCreateModal'
 import Navbar from './Navbar'
 
@@ -12,13 +12,14 @@ const CourseCreate = () => {
 
 	const [isOpen, setIsOpen] = useState(false)
 
-	const closeModal = () => {
-		setIsOpen(false)
-	}
+	useEffect(() => {
+		if (localStorage.getItem('myCourses')) {
+			dispatch(setMyCourses(JSON.parse(localStorage.getItem('myCourses'))))
+		}
+	}, [])
 
-	const openModal = () => {
-		setIsOpen(true)
-	}
+	const closeModal = () => setIsOpen(false)
+	const openModal = () => setIsOpen(true)
 
 	const createCourseHandler = (title) => {
 		dispatch(createCourse(title))

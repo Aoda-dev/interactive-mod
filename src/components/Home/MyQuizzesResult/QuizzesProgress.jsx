@@ -11,31 +11,6 @@ const QuizzesProgress = ({ item, leaderboard }) => {
 
 	// TODO: PROGRESS BAR
 
-	// useEffect(() => {
-	// 	const userAnswers = leaderboard
-	// 		.map((user) => {
-	// 			const filteredItems = user.data.userResults.filter((answer) => answer.id === item.id)
-	// 			return filteredItems
-	// 		})
-	// 		.map((answer) => {
-	// 			let _userAnswer = null
-
-	// 			answer[0].answersOptions.forEach((_item, index) => {
-	// 				if (_item.id === answer[0].userAnswerId) {
-	// 					if (index === 0) _userAnswer = 'A'
-	// 					if (index === 1) _userAnswer = 'B'
-	// 					if (index === 2) _userAnswer = 'C'
-	// 					if (index === 3) _userAnswer = 'D'
-	// 				}
-	// 			})
-
-	// 			answer[0].userAnswerABCD = _userAnswer
-
-	// 			return answer[0]
-	// 		})
-
-	// }, [])
-
 	return (
 		<div className='w-full flex md:w-1/2'>
 			<div className='flex flex-col px-3 text-gray-400 space-y-4 mt-1.5'>

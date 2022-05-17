@@ -1,16 +1,25 @@
 import React from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { Xicon } from '../../assets/svg/icons'
 
-const Navbar = ({ openModal, myCourses }) => {
+const Navbar = ({ navbar, setNavbar, openModal, myCourses }) => {
 	const navigate = useNavigate()
 
 	const courseCreate = () => {
 		openModal()
+		setNavbar(true)
 	}
 
 	return (
-		<div className='relative w-96 bg-slate-700 text-white'>
-			<h2 className='text-xl text-center px-5 mt-5 text-blue-100'>Режим редактирование курсов</h2>
+		<div
+			className={`w-72 h-screen z-40 ${
+				navbar ? '-translate-x-full' : 'translate-x-0'
+			} fixed bg-slate-700 text-white transition-all sm:translate-x-0 sm:relative sm:block sm:w-96`}
+		>
+			<div className='flex justify-around items-center mt-5'>
+				<h2 className='text-base text-center text-blue-100 sm:text-xl'>Режим редактирование курсов</h2>
+				<Xicon onClick={() => setNavbar(true)} className='w-8 h-8 cursor-pointer sm:hidden' />
+			</div>
 
 			<div className='px-5 space-y-3 my-10'>
 				<h2>Мои курсы</h2>
@@ -19,7 +28,10 @@ const Navbar = ({ openModal, myCourses }) => {
 					<div className='max-h-52 overflow-y-scroll scroll-smooth'>
 						{myCourses.map((item) => (
 							<div
-								onClick={() => navigate(`/course/create/edit/${item.id}`, { state: { id: item.id } })}
+								onClick={() => {
+									navigate(`/course/create/edit/${item.id}`, { state: { id: item.id } })
+									setNavbar(true)
+								}}
 								key={item.id}
 								className='px-5 py-2 cursor-pointer text-center border-b overflow-hidden whitespace-nowrap text-ellipsis transition-all hover:bg-blue-400'
 							>

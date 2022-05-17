@@ -220,8 +220,38 @@ export const deleteOneQuiz = async (id, imgId) => {
 		.catch((error) => console.log(error))
 }
 
-export const setDocumentToFirestorage = async (uid, document) => {
-	console.log('working')
+export const setCourseToFirestore = async (data) => {
+	const docRef = await addDoc(collection(db, 'courses'), data)
+	return docRef.id
+}
+
+export const getAllMyCoursesFromFirestore = async (uid) => {
+	const data = []
+	const q = query(collection(db, 'courses'), where('creatorId', '==', uid))
+	const querySnapshot = await getDocs(q)
+
+	querySnapshot.forEach((doc) => {
+		data.push({ id: doc.id, data: doc.data() })
+	})
+
+	for (let course of data) {
+		course.data.img = await getDownloadURL(ref(storage, `images/${course.data.imgId}`))
+	}
+
+	return data
+}
+
+export const getOneCourse = async (uid) => {
+	const docRef = doc(db, 'courses', uid)
+	const docSnap = await getDoc(docRef)
+	let result = {}
+
+	if (docSnap.exists()) {
+		const img = await getDownloadURL(ref(storage, `images/${docSnap.data().imgId}`))
+		result = { ...docSnap.data(), img }
+	}
+
+	return result
 }
 
 export default app

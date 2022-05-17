@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const MyCoursesAllCourses = () => {
+const MyCoursesAllCourses = ({ myCourses }) => {
 	const navigate = useNavigate()
 
 	return (
@@ -14,29 +14,31 @@ const MyCoursesAllCourses = () => {
 			</div>
 
 			<div className='flex flex-col space-y-6 pb-20'>
-				<div className='w-full flex flex-col shadow-lg md:flex-row'>
-					<div className='w-full h-58 md:w-80'>
-						<img className='w-full h-full object-cover' src='https://wallpaperaccess.com/full/3949076.jpg' alt='' />
-					</div>
-					<div className='w-full h-full px-10 py-10 space-y-3 md:py-2'>
-						<h2 className='text-2xl'>React Native</h2>
-						<div>
-							<p className='text-sm text-gray-400'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+				{myCourses.map((course) => (
+					<div key={course.id} className='w-full flex flex-col shadow-lg md:flex-row'>
+						<div className='w-full h-40 md:w-80 overflow-hidden'>
+							<img className='w-full h-full object-cover' src={course?.data?.img} alt='' />
 						</div>
-
-						<div className='flex flex-col justify-between  py-2 space-y-6 sm:flex-row sm:space-y-0 sm:items-center'>
-							<div className='text-sm text-gray-600'>Дата создание: 15 Jan 2021</div>
+						<div className='w-full h-full px-10 py-10 space-y-3 md:py-2'>
+							<h2 className='text-2xl'>{course?.data?.course?.name}</h2>
 							<div>
-								<button
-									onClick={() => navigate('/home/courses/something')}
-									className='bg-indigo-500 text-white px-5 py-2'
-								>
-									Открыть курс
-								</button>
+								<p className='text-sm text-gray-400'>{course?.data?.title}</p>
+							</div>
+
+							<div className='flex flex-col justify-between  py-2 space-y-6 sm:flex-row sm:space-y-0 sm:items-center'>
+								<div className='text-sm text-gray-600'>Дата создание: 15 Jan 2021</div>
+								<div>
+									<button
+										onClick={() => navigate(`/home/courses/${course.id}`)}
+										className='bg-indigo-500 text-white px-5 py-2'
+									>
+										Открыть курс
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				))}
 			</div>
 		</div>
 	)

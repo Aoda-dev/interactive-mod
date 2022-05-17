@@ -143,7 +143,6 @@ const QuizCreate = () => {
 			creatorDisplayName: user.displayName,
 			creatorImg: user.photoURL,
 		}).then((res) => {
-			console.log(res)
 			setQuizLinkId(res)
 		})
 

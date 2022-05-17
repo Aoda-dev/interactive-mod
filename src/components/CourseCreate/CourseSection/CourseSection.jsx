@@ -6,8 +6,6 @@ import { createContent, createLink, createVideoLink, deleteLink } from '../../..
 import CourseSectionModal from './CourseSectionModal'
 import DropDownMenu from './DropDownMenu'
 
-// TODO: add links button and pptx files and something
-
 const CourseSection = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -24,7 +22,7 @@ const CourseSection = () => {
 
 	useEffect(() => {
 		if (!mySections) navigate('/course/create')
-	}, [mySections])
+	}, [mySections, navigate])
 
 	const createVideoLinkHandler = (e) => {
 		dispatch(createVideoLink({ myCourseId: location.state.courseId, mySectionId: mySections.id, name: e.target.value }))
@@ -76,7 +74,7 @@ const CourseSection = () => {
 					<div className='flex justify-center'>
 						<div className='mb-3 w-full'>
 							<label htmlFor='exampleFormControlTextarea1' className='form-label inline-block mb-2 text-gray-700'>
-								Добавье контент
+								Добавьте контент
 							</label>
 							<textarea
 								value={mySections?.content || ''}
@@ -109,31 +107,29 @@ const CourseSection = () => {
 					/>
 				)}
 
-				<div className='border bg-white shadow-lg px-8 py-5 space-y-2'>
-					{mySections?.links?.length !== 0 && (
-						<>
-							<h2>Ссылки:</h2>
-							{mySections?.links?.map((link) => (
-								<div key={link.id} className='flex justify-between items-center'>
-									<div className='space-x-2'>
-										<span className='text-sm'>{link.name}</span>{' '}
-										<a className='underline text-sm text-blue-500 hover:text-blue-300' href='#'>
-											{link.link}
-										</a>
-									</div>
-									<CourseSectionDeleteIcon
-										onClick={() => deleteLinkHandler(link.id)}
-										className='w-5 h-5 cursor-pointer hover:stroke-red-500 '
-									/>
+				{mySections?.links?.length !== 0 && (
+					<div className='border bg-white shadow-lg px-8 py-5 space-y-2'>
+						{mySections?.links?.map((link) => (
+							<div key={link.id} className='flex justify-between items-center'>
+								<div className='space-x-2'>
+									<span className='text-sm'>{link.name}</span>{' '}
+									<a
+										className='underline text-sm text-blue-500 hover:text-blue-300'
+										rel='noreferrer'
+										target='_blank'
+										href={link.link}
+									>
+										{link.link}
+									</a>
 								</div>
-							))}
-						</>
-					)}
-
-					{mySections?.links?.length !== 0 ? null : (
-						<span className='text-gray-400 text-sm'>Вы еще ничего не добавили</span>
-					)}
-				</div>
+								<CourseSectionDeleteIcon
+									onClick={() => deleteLinkHandler(link.id)}
+									className='w-5 h-5 cursor-pointer hover:stroke-red-500 '
+								/>
+							</div>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	)

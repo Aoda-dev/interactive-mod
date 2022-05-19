@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { uid } from '../../helper/uniqId'
 
 export const counterSlice = createSlice({
@@ -6,131 +6,98 @@ export const counterSlice = createSlice({
 	initialState: {
 		placeholderLoading: null,
 		myCoursesLoading: null,
+		update: null,
+		updateSection: null,
+		sections: [],
 		myCourses: [],
 	},
 	reducers: {
 		setMyCourses: (state, action) => {
 			state.myCourses = [...action.payload]
-			localStorage.setItem('myCourses', JSON.stringify(state.myCourses))
+		},
+
+		updateMyCourse: (state, action) => {
+			state.update = !state.update
 		},
 
 		createCourse: (state, action) => {
-			state.myCourses = [...state.myCourses, { id: uid(), name: action.payload, sections: [] }]
-			localStorage.setItem('myCourses', JSON.stringify(state.myCourses))
+			state.myCourses = [...state.myCourses, { id: action.payload.id, data: action.payload.data }]
+		},
+
+		updateCourseSection: (state, action) => {
+			state.updateSection = !state.updateSection
+		},
+
+		setSections: (state, action) => {
+			state.sections = [...action.payload]
 		},
 
 		deleteCourse: (state, action) => {
 			const currentState = state.myCourses.filter((d) => d.id !== action.payload.id)
 			state.myCourses = [...currentState]
-			localStorage.setItem('myCourses', JSON.stringify(state.myCourses))
-		},
-
-		createSection: (state, action) => {
-			const currentState = state.myCourses.map((item) => {
-				if (item.id === action.payload.id) {
-					item.sections.push({ id: uid(), name: action.payload.title })
-				}
-				return item
-			})
-
-			state.myCourses = [...currentState]
-			localStorage.setItem('myCourses', JSON.stringify(state.myCourses))
 		},
 
 		createVideoLink: (state, action) => {
-			const currentState = state.myCourses.map((item) => {
-				if (item.id === action.payload.myCourseId) {
-					const currentSection = item.sections.map((section) => {
-						if (section.id === action.payload.mySectionId) {
-							section.videoLink = action.payload.name
-						}
-						return section
-					})
-
-					item.sections = [...currentSection]
+			const currentSections = state.sections.map((section) => {
+				if (section.id === action.payload.id) {
+					section.data.videoLink = action.payload.name
 				}
-
-				return item
+				return section
 			})
 
-			state.myCourses = [...currentState]
-			localStorage.setItem('myCourses', JSON.stringify(state.myCourses))
+			state.sections = [...currentSections]
 		},
 
 		createContent: (state, action) => {
-			const currentState = state.myCourses.map((item) => {
-				if (item.id === action.payload.myCourseId) {
-					const currentSection = item.sections.map((section) => {
-						if (section.id === action.payload.mySectionId) {
-							section.content = action.payload.name
-						}
-						return section
-					})
-
-					item.sections = [...currentSection]
+			const currentSections = state.sections.map((section) => {
+				if (section.id === action.payload.id) {
+					section.data.content = action.payload.name
 				}
-
-				return item
+				return section
 			})
 
-			state.myCourses = [...currentState]
-			localStorage.setItem('myCourses', JSON.stringify(state.myCourses))
+			state.sections = [...currentSections]
 		},
 
 		createLink: (state, action) => {
-			const currentState = state.myCourses.map((item) => {
-				if (item.id === action.payload.myCourseId) {
-					const currentSections = item.sections.map((section) => {
-						if (section.id === action.payload.mySectionId) {
-							!section.links
-								? (section.links = [{ id: uid(), name: action.payload.name, link: action.payload.link }])
-								: (section.links = [
-										...section.links,
-										{ id: uid(), name: action.payload.name, link: action.payload.link },
-								  ])
-						}
-						return section
-					})
-
-					item.sections = [...currentSections]
+			const currentSections = state.sections.map((section) => {
+				if (section.id === action.payload.id) {
+					!section.data.links
+						? (section.data.links = [{ id: uid(), name: action.payload.name, link: action.payload.link }])
+						: (section.data.links = [
+								...section.data.links,
+								{ id: uid(), name: action.payload.name, link: action.payload.link },
+						  ])
 				}
-				return item
+
+				return section
 			})
 
-			state.myCourses = [...currentState]
-			localStorage.setItem('myCourses', JSON.stringify(state.myCourses))
+			state.sections = [...currentSections]
 		},
 
 		deleteLink: (state, action) => {
-			const currentState = state.myCourses.map((item) => {
-				if (item.id === action.payload.myCourseId) {
-					const currentSections = item.sections.map((section) => {
-						if (section.id === action.payload.mySectionId) {
-							section.links = section.links.filter((d) => d.id !== action.payload.linkId)
-						}
-						return section
-					})
-
-					item.sections = [...currentSections]
+			const currentSections = state.sections.map((section) => {
+				if (section.id === action.payload.id) {
+					section.data.links = section.data.links.filter((d) => d.id !== action.payload.linkId)
 				}
-				return item
+
+				return section
 			})
 
-			state.myCourses = [...currentState]
-			localStorage.setItem('myCourses', JSON.stringify(state.myCourses))
+			state.sections = [...currentSections]
 		},
 
 		deleteSection: (state, action) => {
 			const currentState = state.myCourses.map((item) => {
 				if (item.id === action.payload.courseId) {
-					item.sections = item.sections.filter((d) => d.id !== action.payload.sectionId)
+					item.data.course.sections = item.data.course.sections.filter((d) => d.id !== action.payload.sectionId)
 				}
 
 				return item
 			})
 
 			state.myCourses = [...currentState]
-			localStorage.setItem('myCourses', JSON.stringify(state.myCourses))
 		},
 	},
 })
@@ -138,7 +105,9 @@ export const counterSlice = createSlice({
 export const {
 	setMyCourses,
 	createCourse,
-	createSection,
+	updateMyCourse,
+	updateCourseSection,
+	setSections,
 	deleteSection,
 	deleteCourse,
 	createVideoLink,

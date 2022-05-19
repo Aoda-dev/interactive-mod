@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { getAllMyCoursesFromFirestore } from '../../../firebase/firebase'
+import { getAllMyCoursesFromFirestoreForView } from '../../../firebase/firebase'
 import Loader from '../../Loader/Loader'
 import MyCoursesAllCourses from './MyCoursesAllCourses'
 
@@ -10,8 +10,9 @@ const MyCourses = () => {
 	const [myCourses, setMyCourses] = useState([])
 
 	useEffect(() => {
-		getAllMyCoursesFromFirestore(user?.uid).then((res) => {
-			setMyCourses(res)
+		getAllMyCoursesFromFirestoreForView(user?.uid).then((res) => {
+			const sortedActivities = res.slice().sort((a, b) => a.data.createdAt - b.data.createdAt)
+			setMyCourses(sortedActivities)
 			setLoading(false)
 		})
 	}, [user?.uid])

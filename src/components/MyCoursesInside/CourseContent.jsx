@@ -9,7 +9,7 @@ const CourseContent = ({ sections }) => {
 				{sections?.map((section, index) => (
 					<div key={section?.id} className='bg-indigo-500 space-x-3 text-white px-5 py-2'>
 						<span>{index + 1}.</span>
-						<span>{section?.name}</span>
+						<span>{section?.data?.name}</span>
 					</div>
 				))}
 			</div>

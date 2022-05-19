@@ -3,29 +3,41 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useLocation } from 'react-router-dom'
 import { HumburgerMenuIcon } from '../../assets/svg/icons'
 import { createCourse, setMyCourses } from '../../features/myCourses/myCourses'
+import { getAllMyCoursesFromFirestore, setCourseToFirestore } from '../../firebase/firebase'
 import CourseCreateModal from './CourseCreateModal'
 import Navbar from './Navbar'
 
 const CourseCreate = () => {
 	const { pathname } = useLocation()
 	const dispatch = useDispatch()
-	const { myCourses } = useSelector((state) => state.myCourses)
+	const { user } = useSelector((state) => state.user)
+	const { myCourses, update } = useSelector((state) => state.myCourses)
 
 	const [isOpen, setIsOpen] = useState(false)
 	const [navbar, setNavbar] = useState(false)
 
 	useEffect(() => {
-		if (localStorage.getItem('myCourses')) {
-			dispatch(setMyCourses(JSON.parse(localStorage.getItem('myCourses'))))
-		}
-	}, [dispatch])
+		getAllMyCoursesFromFirestore(user?.uid).then((res) => {
+			dispatch(setMyCourses(res))
+		})
+	}, [user?.uid, dispatch, update])
 
 	const closeModal = () => setIsOpen(false)
 	const openModal = () => setIsOpen(true)
 
 	const createCourseHandler = (title) => {
-		dispatch(createCourse(title))
-		closeModal()
+		const _course = {
+			course: { name: title },
+			creatorId: user.uid,
+			creatorName: user.displayName,
+			publish: false,
+			createdAt: new Date().getTime(),
+		}
+
+		setCourseToFirestore(_course).then((res) => {
+			dispatch(createCourse({ id: res, data: _course }))
+			closeModal()
+		})
 	}
 
 	return (

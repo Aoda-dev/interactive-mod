@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import React, { Fragment, useEffect, useState } from 'react'
+import { Dialog, Transition, Switch } from '@headlessui/react'
 
 const fileToDataUri = (file) =>
 	new Promise((resolve, reject) => {
@@ -10,11 +10,27 @@ const fileToDataUri = (file) =>
 		reader.readAsDataURL(file)
 	})
 
-const CreateSectionModal = ({ closeUploadModal, isUploadModalOpen, uploadCourseHandler }) => {
+const CreateUploadModal = ({ myCourse, closeUploadModal, isUploadModalOpen, uploadCourseHandler }) => {
 	const [title, setTitle] = useState('')
 	const [aboutCourse, setAboutCourse] = useState('')
 	const [photoUri, setPhotoUri] = useState('')
+	const [publish, setPublish] = useState(false)
 	const [error, setError] = useState(false)
+
+	useEffect(() => {
+		if (myCourse?.data?.hasOwnProperty('publish')) {
+			setPublish(myCourse?.data?.publish)
+		}
+		if (myCourse?.data?.course?.hasOwnProperty('title')) {
+			setTitle(myCourse?.data?.course?.title)
+		}
+		if (myCourse?.data?.course?.hasOwnProperty('aboutCourse')) {
+			setAboutCourse(myCourse?.data?.course?.aboutCourse)
+		}
+		if (myCourse?.data?.hasOwnProperty('img')) {
+			setPhotoUri(myCourse?.data?.img)
+		}
+	}, [myCourse?.data])
 
 	const handleUploadImg = (e) => {
 		let pattern = /image-*/
@@ -31,7 +47,13 @@ const CreateSectionModal = ({ closeUploadModal, isUploadModalOpen, uploadCourseH
 	const _uploadSection = () => {
 		if (title.trim() === '' || photoUri.trim() === '' || aboutCourse.trim() === '') return setError(true)
 
-		uploadCourseHandler({ title: title, photoUri: photoUri, aboutCourse: aboutCourse })
+		uploadCourseHandler({
+			id: myCourse.id,
+			title: title,
+			photoUri: photoUri,
+			aboutCourse: aboutCourse,
+			publish: publish,
+		})
 
 		setError(false)
 		closeUploadModal()
@@ -42,7 +64,7 @@ const CreateSectionModal = ({ closeUploadModal, isUploadModalOpen, uploadCourseH
 
 	return (
 		<Transition appear show={isUploadModalOpen} as={Fragment}>
-			<Dialog as='div' className='fixed inset-0 z-10 bg-black bg-opacity-70 overflow-y-auto' onClose={closeUploadModal}>
+			<Dialog as='div' className='fixed inset-0 z-50 bg-black bg-opacity-70 overflow-y-auto' onClose={closeUploadModal}>
 				<div className='min-h-screen px-4 text-center'>
 					<Transition.Child
 						as={Fragment}
@@ -108,6 +130,24 @@ const CreateSectionModal = ({ closeUploadModal, isUploadModalOpen, uploadCourseH
 									placeholder='Описание'
 								></textarea>
 							</div>
+
+							<div className='flex items-center space-x-3'>
+								<span>Сделать публичным</span>
+								<Switch
+									checked={publish}
+									onChange={setPublish}
+									className={`${
+										publish ? 'bg-blue-600' : 'bg-gray-200'
+									} relative inline-flex h-6 w-11 items-center rounded-full`}
+								>
+									<span className='sr-only'>Enable notifications</span>
+									<span
+										className={`${
+											publish ? 'translate-x-6' : 'translate-x-1'
+										} inline-block h-4 w-4 transform rounded-full bg-white`}
+									/>
+								</Switch>
+							</div>
 							{error && <h3 className='text-md text-red-500 animate-bounce'>Заполните все поля</h3>}
 
 							<div className='mt-4 space-x-2'>
@@ -134,4 +174,4 @@ const CreateSectionModal = ({ closeUploadModal, isUploadModalOpen, uploadCourseH
 	)
 }
 
-export default CreateSectionModal
+export default CreateUploadModal

@@ -20,6 +20,7 @@ import CourseCreate from './components/CourseCreate/CourseCreate'
 import CourseEdit from './components/CourseCreate/CourseEdit/CourseEdit'
 import CourseSection from './components/CourseCreate/CourseSection/CourseSection'
 import MyCoursesWalk from './components/Home/MyCoursesWalk/MyCoursesWalk'
+import MyCoursesWalkSection from './components/Home/MyCoursesWalkSection/MyCoursesWalkSection'
 
 const App = () => {
 	const [firstLoad, setFirstLoad] = useState(true)
@@ -52,6 +53,7 @@ const App = () => {
 						<Route path='mycourses' element={<MyCourses />} />
 						<Route path='courses/:id' element={<MyCoursesInside />} />
 						<Route path='courses/:id/walk' element={<MyCoursesWalk />} />
+						<Route path='courses/:id/walk/:sectionid' element={<MyCoursesWalkSection />} />
 					</Route>
 
 					<Route

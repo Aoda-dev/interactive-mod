@@ -8,11 +8,11 @@ import {
 	query,
 	where,
 	doc,
+	setDoc,
 	getDoc,
 	getDocs,
 	addDoc,
 	deleteDoc,
-	setDoc,
 } from 'firebase/firestore'
 
 import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from 'firebase/storage'
@@ -205,12 +205,9 @@ export const getOneQuiz = async (uid) => {
 	return null
 }
 
-export const setImageToFirestorage = (uid, message) => {
+export const setImageToFirestorage = async (uid, message) => {
 	const storageRef = ref(storage, `images/${uid}`)
-
-	uploadString(storageRef, message, 'data_url').then((snapshot) => {
-		console.log('Uploaded a data_url string!')
-	})
+	await uploadString(storageRef, message, 'data_url')
 }
 
 export const deleteOneQuiz = async (id, imgId) => {
@@ -225,6 +222,21 @@ export const setCourseToFirestore = async (data) => {
 	return docRef.id
 }
 
+export const updateCourseToFirestore = async (data) => {
+	await setDoc(doc(db, 'courses', data.id), data.data)
+	return data
+}
+
+export const setCourseSectionToFirestore = async (data) => {
+	const docRef = await addDoc(collection(db, 'courseSections'), data)
+	return docRef.id
+}
+
+export const updateCourseSectionToFirestore = async (data) => {
+	await setDoc(doc(db, 'courseSections', data.id), data.data)
+	return data
+}
+
 export const getAllMyCoursesFromFirestore = async (uid) => {
 	const data = []
 	const q = query(collection(db, 'courses'), where('creatorId', '==', uid))
@@ -235,10 +247,55 @@ export const getAllMyCoursesFromFirestore = async (uid) => {
 	})
 
 	for (let course of data) {
-		course.data.img = await getDownloadURL(ref(storage, `images/${course.data.imgId}`))
+		if (course.data.imgId) {
+			course.data.img = await getDownloadURL(ref(storage, `images/${course.data.imgId}`))
+		}
 	}
 
 	return data
+}
+
+export const getAllMyCoursesFromFirestoreForView = async (uid) => {
+	const data = []
+	const q = query(collection(db, 'courses'), where('creatorId', '==', uid), where('publish', '==', true))
+	const querySnapshot = await getDocs(q)
+
+	querySnapshot.forEach((doc) => {
+		data.push({ id: doc.id, data: doc.data() })
+	})
+
+	for (let course of data) {
+		if (course.data.imgId) {
+			course.data.img = await getDownloadURL(ref(storage, `images/${course.data.imgId}`))
+		}
+	}
+
+	return data
+}
+
+export const getAllMyCoursesSectionsFromFirestore = async (id) => {
+	const data = []
+	const q = query(collection(db, 'courseSections'), where('courseId', '==', id))
+	const querySnapshot = await getDocs(q)
+
+	querySnapshot.forEach((doc) => {
+		data.push({ id: doc.id, data: doc.data() })
+	})
+
+	return data
+}
+
+export const deleteOneCourse = async (id, imgId) => {
+	await deleteDoc(doc(db, 'courses', id))
+	if (imgId) {
+		deleteObject(ref(storage, `images/${imgId}`))
+			.then(() => {})
+			.catch((error) => console.log(error))
+	}
+}
+
+export const deleteOneCourseSection = async (id) => {
+	await deleteDoc(doc(db, 'courseSections', id))
 }
 
 export const getOneCourse = async (uid) => {
@@ -249,6 +306,18 @@ export const getOneCourse = async (uid) => {
 	if (docSnap.exists()) {
 		const img = await getDownloadURL(ref(storage, `images/${docSnap.data().imgId}`))
 		result = { ...docSnap.data(), img }
+	}
+
+	return result
+}
+
+export const getOneCourseSection = async (id) => {
+	const docRef = doc(db, 'courseSections', id)
+	const docSnap = await getDoc(docRef)
+	let result = {}
+
+	if (docSnap.exists()) {
+		result = { ...docSnap.data() }
 	}
 
 	return result

@@ -34,13 +34,13 @@ const Hero = ({ id, img, title, quiz, creatorName, creatorImg, description, time
 					data-placeholder={placeholderLoading ? true : false}
 					className='relative overflow-hidden w-full h-64 shadow-2xl shadow-indigo-300 bg-gray-200'
 				>
-					<img className='w-full h-full object-cover' src={img} />
+					<img className='w-full h-full object-cover' src={img} alt='' />
 				</div>
 
 				<div className='flex flex-col justify-center w-full space-y-2'>
 					<div className='flex items-center'>
 						<span className='text-sm mr-3'>Создатель:</span>
-						<img className='w-5 h-5 rounded-full mr-1' src={creatorImg} />
+						<img className='w-5 h-5 rounded-full mr-1' src={creatorImg} alt='' />
 						<a href='#' alt='' className='text-sm underline underline-offset-1'>
 							{creatorName}
 						</a>

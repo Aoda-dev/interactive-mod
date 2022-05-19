@@ -9,8 +9,8 @@ const QuizResult = () => {
 	const { state } = useLocation()
 	const [score, setScore] = useState(0)
 
-	const countScore = arr => {
-		const resultArr = arr.filter(item => item.isTrue === true)
+	const countScore = (arr) => {
+		const resultArr = arr.filter((item) => item.isTrue === true)
 		const _score = Math.floor((resultArr.length / arr.length) * 100)
 
 		setQuizResult({
@@ -29,7 +29,7 @@ const QuizResult = () => {
 	useEffect(() => {
 		if (!state) return navigate('/404')
 		countScore(state?.userResults)
-	}, [])
+	}, [state, navigate])
 
 	return (
 		<div className='w-full min-h-screen relative bg-gray-100 flex flex-col justify-center items-center overflow-x-hidden text-white'>
@@ -37,7 +37,10 @@ const QuizResult = () => {
 				<div className='container flex justify-between items-center px-10 md:px-24 xl:px-56'>
 					<h1>QuizHeader Here</h1>
 
-					<button onClick={e => navigate('/home/dashboard')} className='px-5 mt-2 py-2 bg-gray-600 text-white text-sm'>
+					<button
+						onClick={(e) => navigate('/home/dashboard')}
+						className='px-5 mt-2 py-2 bg-gray-600 text-white text-sm'
+					>
 						Выйти
 					</button>
 				</div>

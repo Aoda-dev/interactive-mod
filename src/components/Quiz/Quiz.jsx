@@ -62,7 +62,7 @@ const Quiz = () => {
 			setMinutes(+_minutes)
 			setSeconds(+_seconds)
 		})
-	}, [])
+	}, [id, navigate])
 
 	useEffect(() => {
 		if (!startQuiz) return
@@ -95,7 +95,7 @@ const Quiz = () => {
 				},
 			})
 		}
-	}, [quizEnd])
+	}, [quizEnd, id, navigate, quiz, results, user.displayName, user.photoURL, user.uid, userMinutes, userSeconds])
 
 	useEffect(() => {
 		if (!startQuiz) return

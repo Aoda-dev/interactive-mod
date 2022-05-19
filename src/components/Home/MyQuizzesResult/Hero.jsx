@@ -10,7 +10,7 @@ const Hero = ({ leaderboard }) => {
 		const _score = Math.floor((resultArr.length / leaderboard.length) * 100)
 
 		setPercentage(_score)
-	}, [])
+	}, [leaderboard])
 
 	return (
 		<div className='px-4 space-y-6 sm:px-10'>

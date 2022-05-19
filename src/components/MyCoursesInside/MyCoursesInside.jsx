@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { getOneCourse } from '../../firebase/firebase'
+import { getAllMyCoursesSectionsFromFirestore, getOneCourse } from '../../firebase/firebase'
 import Loader from '../Loader/Loader'
 
 import CourseContent from './CourseContent'
@@ -11,11 +11,17 @@ const MyCoursesInside = () => {
 	const { id } = useParams()
 	const [loading, setLoading] = useState(true)
 	const [course, setCourse] = useState({})
+	const [sections, setSections] = useState([])
 
 	useEffect(() => {
 		getOneCourse(id).then((res) => {
-			setCourse(res)
-			setLoading(false)
+			getAllMyCoursesSectionsFromFirestore(id).then((result) => {
+				const sortedActivities = result.slice().sort((a, b) => a.data.createdAt - b.data.createdAt)
+
+				setSections(sortedActivities)
+				setCourse(res)
+				setLoading(false)
+			})
 		})
 	}, [id])
 
@@ -28,12 +34,13 @@ const MyCoursesInside = () => {
 					<Header
 						courseId={id}
 						title={course?.course?.name}
-						subTitle={course?.title}
+						subTitle={course?.course?.title}
 						img={course?.img}
 						creatorName={course?.creatorName}
+						createdAt={course?.createdAt}
 					/>
-					<Description description={course?.aboutCourse} />
-					<CourseContent sections={course?.course?.sections} />
+					<Description description={course?.course?.aboutCourse} />
+					<CourseContent sections={sections} />
 				</>
 			)}
 		</div>

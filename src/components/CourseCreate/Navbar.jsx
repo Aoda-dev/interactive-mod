@@ -5,6 +5,8 @@ import { Xicon } from '../../assets/svg/icons'
 const Navbar = ({ navbar, setNavbar, openModal, myCourses }) => {
 	const navigate = useNavigate()
 
+	const sortedActivities = myCourses.slice().sort((a, b) => a.data.createdAt - b.data.createdAt)
+
 	const courseCreate = () => {
 		openModal()
 		setNavbar(true)
@@ -24,18 +26,18 @@ const Navbar = ({ navbar, setNavbar, openModal, myCourses }) => {
 			<div className='px-5 space-y-3 my-10'>
 				<h2>Мои курсы</h2>
 
-				{myCourses.length > 0 ? (
+				{sortedActivities.length > 0 ? (
 					<div className='max-h-52 overflow-y-scroll scroll-smooth'>
-						{myCourses.map((item) => (
+						{sortedActivities.map((item) => (
 							<div
 								onClick={() => {
-									navigate(`/course/create/edit/${item.id}`, { state: { id: item.id } })
+									navigate(`/course/create/edit/${item?.id}`)
 									setNavbar(true)
 								}}
 								key={item.id}
 								className='px-5 py-2 cursor-pointer text-center border-b overflow-hidden whitespace-nowrap text-ellipsis transition-all hover:bg-blue-400'
 							>
-								{item.name}
+								{item?.data?.course?.name}
 							</div>
 						))}
 					</div>
@@ -45,7 +47,7 @@ const Navbar = ({ navbar, setNavbar, openModal, myCourses }) => {
 					</div>
 				)}
 
-				{myCourses.length > 0 && (
+				{sortedActivities.length > 0 && (
 					<div className='text-center py-5'>
 						<button onClick={courseCreate} className='hover:text-blue-200'>
 							Создать Курс

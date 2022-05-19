@@ -1,8 +1,11 @@
+// TODO: make pptx downloadable
+
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowNarrowLeft, CourseSectionDeleteIcon } from '../../../assets/svg/icons'
 import { createContent, createLink, createVideoLink, deleteLink } from '../../../features/myCourses/myCourses'
+import { updateCourseSectionToFirestore } from '../../../firebase/firebase'
 import CourseSectionModal from './CourseSectionModal'
 import DropDownMenu from './DropDownMenu'
 
@@ -10,13 +13,9 @@ const CourseSection = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { id } = useParams()
-	const location = useLocation()
-	const mySections = useSelector(
-		(state) =>
-			state.myCourses.myCourses
-				.filter((d) => d.id === location.state.courseId)[0]
-				?.sections?.filter((d) => d.id === id)[0]
-	)
+	const [isSaving, setIsSaving] = useState(false)
+
+	const mySections = useSelector((state) => state.myCourses.sections.filter((d) => d.id === id)[0])
 
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -24,20 +23,29 @@ const CourseSection = () => {
 		if (!mySections) navigate('/course/create')
 	}, [mySections, navigate])
 
+	const saveHandler = () => {
+		setIsSaving(true)
+		updateCourseSectionToFirestore(mySections).then((res) => {
+			setTimeout(() => {
+				setIsSaving(false)
+			}, 2000)
+		})
+	}
+
 	const createVideoLinkHandler = (e) => {
-		dispatch(createVideoLink({ myCourseId: location.state.courseId, mySectionId: mySections.id, name: e.target.value }))
+		dispatch(createVideoLink({ id: mySections.id, name: e.target.value }))
 	}
 
 	const createContentHandler = (e) => {
-		dispatch(createContent({ myCourseId: location.state.courseId, mySectionId: mySections.id, name: e.target.value }))
+		dispatch(createContent({ id: mySections.id, name: e.target.value }))
 	}
 
 	const createLinkHandler = (title, link) => {
-		dispatch(createLink({ myCourseId: location.state.courseId, mySectionId: mySections.id, name: title, link: link }))
+		dispatch(createLink({ id: mySections.id, name: title, link: link }))
 	}
 
 	const deleteLinkHandler = (id) => {
-		dispatch(deleteLink({ myCourseId: location.state.courseId, mySectionId: mySections.id, linkId: id }))
+		dispatch(deleteLink({ id: mySections.id, linkId: id }))
 	}
 
 	const closeModal = () => setIsOpen(false)
@@ -45,9 +53,21 @@ const CourseSection = () => {
 
 	return (
 		<div className='w-full h-full bg-white overflow-y-scroll'>
-			<div className='border flex items-center space-x-3 shadow-lg m-5 px-5 py-2'>
-				<ArrowNarrowLeft onClick={() => navigate(-1)} className='w-8 h-8 cursor-pointer' />
-				<h2 className='text-2xl'>{mySections?.name}</h2>
+			<div className='border flex flex-col space-y-3 justify-between shadow-lg m-5 px-5 py-2 sm:flex-row sm:space-y-0'>
+				<div className='flex items-center space-x-3'>
+					<ArrowNarrowLeft onClick={() => navigate(-1)} className='w-8 h-8 cursor-pointer' />
+					<h2 className='text-2xl'>{mySections?.data?.name}</h2>
+				</div>
+
+				<button
+					onClick={saveHandler}
+					disabled={isSaving}
+					className={`text-xs transition-all px-5 py-2 ${
+						isSaving ? 'bg-green-500' : 'bg-blue-500'
+					} text-white sm:text-base`}
+				>
+					{isSaving ? 'Сохранено' : 'Сохранить'}
+				</button>
 			</div>
 
 			<div className='mx-5 my-10 px-5 py-2 space-y-3'>
@@ -60,7 +80,7 @@ const CourseSection = () => {
 					<span>Ссылка:</span>
 					<input
 						type='text'
-						value={mySections?.videoLink || ''}
+						value={mySections?.data?.videoLink || ''}
 						onChange={createVideoLinkHandler}
 						className='w-full border-b border-b-black focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
 					/>
@@ -77,7 +97,7 @@ const CourseSection = () => {
 								Добавьте контент
 							</label>
 							<textarea
-								value={mySections?.content || ''}
+								value={mySections?.data?.content || ''}
 								onChange={createContentHandler}
 								className='form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
 								id='exampleFormControlTextarea1'
@@ -107,9 +127,9 @@ const CourseSection = () => {
 					/>
 				)}
 
-				{mySections?.links?.length !== 0 && (
+				{mySections?.data?.links?.length !== 0 && (
 					<div className='border bg-white shadow-lg px-8 py-5 space-y-2'>
-						{mySections?.links?.map((link) => (
+						{mySections?.data?.links?.map((link) => (
 							<div key={link.id} className='flex justify-between items-center'>
 								<div className='space-x-2'>
 									<span className='text-sm'>{link.name}</span>{' '}

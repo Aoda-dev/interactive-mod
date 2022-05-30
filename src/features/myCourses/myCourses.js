@@ -88,6 +88,35 @@ export const counterSlice = createSlice({
 			state.sections = [...currentSections]
 		},
 
+		createDocument: (state, action) => {
+			const currentSections = state.sections.map((section) => {
+				if (section.id === action.payload.id) {
+					!section.data.documents
+						? (section.data.documents = [{ id: action.payload.uniqid, name: action.payload.name }])
+						: (section.data.documents = [
+								...section.data.documents,
+								{ id: action.payload.uniqId, name: action.payload.name },
+						  ])
+				}
+
+				return section
+			})
+
+			state.sections = [...currentSections]
+		},
+
+		deleteDocument: (state, action) => {
+			const currentSections = state.sections.map((section) => {
+				if (section.id === action.payload.id) {
+					section.data.documents = section.data.documents.filter((d) => d.id !== action.payload.documentId)
+				}
+
+				return section
+			})
+
+			state.sections = [...currentSections]
+		},
+
 		deleteSection: (state, action) => {
 			const currentState = state.myCourses.map((item) => {
 				if (item.id === action.payload.courseId) {
@@ -112,6 +141,8 @@ export const {
 	deleteCourse,
 	createVideoLink,
 	createContent,
+	createDocument,
+	deleteDocument,
 	createLink,
 	deleteLink,
 } = counterSlice.actions

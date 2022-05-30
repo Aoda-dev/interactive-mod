@@ -12,7 +12,7 @@ const QuizHowToPlay = ({ setStartQuiz }) => {
 			<p className='my-8'>Прочитай сначала до конца</p>
 
 			<div className='space-y-12'>
-				<div className='flex justify-between border-b mx-10 border-b-slate-600 pb-12'>
+				<div className='flex justify-between mx-10 pb-12'>
 					<div className='space-y-6 text-sm'>
 						<ul className='list-disc space-y-2 md:space-y-0'>
 							<li>У игры есть таймер, постарайтесь ответить на все вопросы до окончания времени.</li>
@@ -31,27 +31,8 @@ const QuizHowToPlay = ({ setStartQuiz }) => {
 					</div>
 				</div>
 
-				<div className='flex justify-between mx-10 border-b pt-0 lg:mx-0 lg:pt-10'>
-					<div className='hidden -mt-20 lg:block'>
-						<Lottie style={{ width: 350 }} play loop animationData={rocketJson} />
-					</div>
-					<div className='space-y-6 text-sm w-[150%]'>
-						<ul className='list-disc space-y-2 md:space-y-0'>
-							<li>У игры есть таймер, постарайтесь ответить на все вопросы до окончания времени.</li>
-							<li>В игре могут быть до 25 вопросов.</li>
-							<li>Каждый вопрос имеет 4 ответа.</li>
-						</ul>
-
-						<ul className='list-disc space-y-2 md:space-y-0'>
-							<li>У игры есть таймер, постарайтесь ответить на все вопросы до окончания времени.</li>
-							<li>В игре могут быть до 25 вопросов.</li>
-							<li>Каждый вопрос имеет 4 ответа.</li>
-						</ul>
-					</div>
-				</div>
-
 				<button onClick={() => setStartQuiz(true)} className='px-5 py-2 block bg-indigo-600 text-white mx-auto'>
-					Играть
+					Начать
 				</button>
 			</div>
 		</div>

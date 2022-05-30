@@ -34,6 +34,7 @@ const CourseEdit = () => {
 		if (myCourse) {
 			getAllMyCoursesSectionsFromFirestore(id).then((res) => {
 				if (!res) return navigate('/course/create')
+
 				dispatch(setSections(res))
 			})
 		} else {
@@ -160,7 +161,6 @@ const CourseEdit = () => {
 					</button>
 				</div>
 			)}
-
 			{sections?.length === 0 && (
 				<div className='bg-slate-100 text-gray-800 flex items-center justify-center h-full'>
 					<div className='-mt-64 flex items-center flex-col justify-center md:-mt-28 px-5'>
@@ -171,11 +171,9 @@ const CourseEdit = () => {
 					</div>
 				</div>
 			)}
-
 			{isOpen && (
 				<CreateSectionModal closeModal={closeModal} isOpen={isOpen} createSectionHandler={createSectionHandler} />
 			)}
-
 			{isUploadModalOpen && (
 				<CourseUploadModal
 					myCourse={myCourse}

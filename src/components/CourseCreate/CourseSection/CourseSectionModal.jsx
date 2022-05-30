@@ -1,10 +1,24 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
-const CourseSectionModal = ({ closeModal, isOpen, createLinkHandler }) => {
+const CourseSectionModal = ({ type, closeModal, isOpen, createLinkHandler, createDocumentHandler }) => {
 	const [title, setTitle] = useState('')
 	const [link, setLink] = useState('')
+	const [file, setFile] = useState(null)
 	const [error, setError] = useState(false)
+
+	const _createDocument = (e) => {
+		if (title.trim() === '') return setError(true)
+		if (!file) return setError(true)
+		// TODO: proverka na pptx i word
+
+		createDocumentHandler(title, file)
+
+		setFile(null)
+		setTitle('')
+		setError(null)
+		closeModal()
+	}
 
 	const _createLink = () => {
 		if (title.trim() === '' || link.trim() === '') return setError(true)
@@ -48,30 +62,42 @@ const CourseSectionModal = ({ closeModal, isOpen, createLinkHandler }) => {
 					>
 						<div className='inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl'>
 							<Dialog.Title as='h3' className='text-lg font-medium leading-6 text-gray-900'>
-								Заполните поля
+								{type === 'link' ? 'Заполните поля' : 'Добавить документ'}
 							</Dialog.Title>
 							<div className='mt-2'>
 								<div className='flex items-center space-x-3'>
 									<span className='text-sm'>Название: </span>
 									<input
 										type='text'
-										placeholder='Название ссылки'
+										placeholder={type === 'link' ? 'Название ссылки' : 'Название документа'}
 										value={title}
 										onChange={(e) => setTitle(e.target.value)}
 										className='border-b py-2 text-sm w-full border-b-black outline-none'
 									/>
 								</div>
 
-								<div className='flex items-center space-x-3'>
-									<span className='text-sm'>Ссылка: </span>
-									<input
-										type='text'
-										placeholder='Ссылка'
-										value={link}
-										onChange={(e) => setLink(e.target.value)}
-										className='border-b py-2 text-sm w-full border-b-black outline-none'
-									/>
-								</div>
+								{type === 'link' && (
+									<div className='flex items-center space-x-3'>
+										<span className='text-sm'>Ссылка: </span>
+										<input
+											type='text'
+											placeholder='Ссылка'
+											value={link}
+											onChange={(e) => setLink(e.target.value)}
+											className='border-b py-2 text-sm w-full border-b-black outline-none'
+										/>
+									</div>
+								)}
+
+								{type === 'document' && (
+									<div className='flex items-center space-x-3'>
+										<input
+											type='file'
+											className='pt-3 text-sm file:bg-blue-500 file:cursor-pointer file:hover:bg-blue-400 file:text-white file:text-xs file:border-none file:p-2'
+											onChange={(e) => setFile(e.target.files[0])}
+										/>
+									</div>
+								)}
 
 								{error && <h3 className='text-sm text-red-500'>Заполните все поля</h3>}
 							</div>
@@ -80,9 +106,9 @@ const CourseSectionModal = ({ closeModal, isOpen, createLinkHandler }) => {
 								<button
 									type='button'
 									className='inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500'
-									onClick={_createLink}
+									onClick={type === 'link' ? _createLink : _createDocument}
 								>
-									Создать
+									{type === 'link' ? 'Создать' : 'Добавить'}
 								</button>
 								<button
 									type='button'

@@ -1,30 +1,21 @@
 // TODO: remake hero component
+import moment from 'moment'
 import React from 'react'
-import { CircularProgressbar } from 'react-circular-progressbar'
 
-import 'react-circular-progressbar/dist/styles.css'
-import { DownloadFileIcon } from '../../../assets/svg/icons'
-
-const Hero = () => {
-	const percentage = 80
+const Hero = ({ course }) => {
+	console.log(course)
 
 	return (
 		<div className='flex flex-col px-10 p-5 space-y-6 md:flex-row md:space-y-0'>
-			<div className='flex-1 space-y-3 flex flex-col items-center'>
-				<div className='w-56 h-56'>
-					<CircularProgressbar value={percentage} text={`${percentage}%`} />
-				</div>
-				<h2 className='text-lg'>Вы прошли курс на {percentage}%</h2>
-			</div>
-			<div className='flex-1 space-y-3'>
-				<h2 className='font-semibold'>Дополнительные материалы курса</h2>
+			<div className='px-5 space-y-3'>
+				<h2 className='text-xl font-semibold'>О курсе</h2>
 
-				<ul className='space-y-2'>
-					<li className='flex justify-between hover:text-gray-400'>
-						<span>Lorem ipsum dolor sit amet.</span>
-						<DownloadFileIcon className='cursor-pointer h-5 w-5' />
-					</li>
-				</ul>
+				<h3 className='text-lg'>{course?.course?.title}</h3>
+				<h4 className='text-md text-gray-900'>{course?.course?.aboutCourse}</h4>
+				<h4 className='text-gray-700'>Создатель: {course?.creatorName}</h4>
+				<h5 className='text-gray-500'>
+					дата создания: {moment(new Date(course?.createdAt)).format('DD/MM/YYYY hh:mm:ss')}
+				</h5>
 			</div>
 		</div>
 	)

@@ -6,7 +6,7 @@ import { loginWithGoogle, signOutGoogle } from '../../firebase/firebase'
 import { HumburgerMenuIcon, Xicon } from '../../assets/svg/icons'
 
 const Navbar = () => {
-	const { user } = useSelector(state => state.user)
+	const { user } = useSelector((state) => state.user)
 	const [openMenu, setOpenMenu] = useState(false)
 	let navigate = useNavigate()
 
@@ -25,23 +25,7 @@ const Navbar = () => {
 				<div>
 					<span className='font-bold'>InteractiveMod</span>
 				</div>
-				<div className='hidden space-x-6 md:flex'>
-					<a href='#' className='hover:text-amber-600'>
-						Главная
-					</a>
-					<a href='#' className='hover:text-amber-600'>
-						Продукт
-					</a>
-					<a href='#' className='hover:text-amber-600'>
-						Кто я
-					</a>
-					<a href='#' className='hover:text-amber-600'>
-						Careers
-					</a>
-					<a href='#' className='hover:text-amber-600'>
-						Community
-					</a>
-				</div>
+				<div className='hidden space-x-6 md:flex'></div>
 
 				{openMenu && (
 					<div className='flex absolute w-[80%] border border-slate-500 mt-10 flex-col items-center py-8 font-bold space-y-6 z-30 bg-white top-10 left-1/2 -translate-x-1/2 sm:w-full md:hidden'>
@@ -52,10 +36,6 @@ const Navbar = () => {
 							</a>
 						)}
 
-						<a href='#'>Главная</a>
-						<a href='#'>Продукт</a>
-						<a href='#'>Кто я</a>
-						<a href='#'>Еще что то</a>
 						{user?.uid && (
 							<a onClick={signOut} href='#'>
 								Выйти
@@ -82,15 +62,8 @@ const Navbar = () => {
 					</a>
 				)}
 
-				<button
-					className='md:hidden'
-					onClick={() => setOpenMenu(prev => !prev)}
-				>
-					{!openMenu ? (
-						<HumburgerMenuIcon className='h-8 w-8' />
-					) : (
-						<Xicon className='h-8 w-8' />
-					)}
+				<button className='md:hidden' onClick={() => setOpenMenu((prev) => !prev)}>
+					{!openMenu ? <HumburgerMenuIcon className='h-8 w-8' /> : <Xicon className='h-8 w-8' />}
 				</button>
 			</div>
 		</nav>

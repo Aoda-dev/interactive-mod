@@ -7,7 +7,7 @@ import { ArrowNarrowLeft, HumburgerMenuIcon } from '../../assets/svg/icons'
 import { useSelector } from 'react-redux'
 
 const Header = ({ id, imgId, creatorId, title, quizLeaderboard, quiz }) => {
-	const { user } = useSelector(state => state.user)
+	const { user } = useSelector((state) => state.user)
 	const navigate = useNavigate()
 	let [isOpen, setIsOpen] = useState(false)
 
@@ -22,7 +22,7 @@ const Header = ({ id, imgId, creatorId, title, quizLeaderboard, quiz }) => {
 	return (
 		<div className='flex items-center justify-between p-5'>
 			<div className='flex items-center space-x-3'>
-				<button onClick={() => navigate('/home/myquizzes')} className='cursor-pointer p-2 '>
+				<button onClick={() => navigate(-1)} className='cursor-pointer p-2 '>
 					<ArrowNarrowLeft className='h-6 w-6 stroke-gray-400' />
 				</button>
 				<h2 className='-mt-0.5 text-lg'>{title}</h2>

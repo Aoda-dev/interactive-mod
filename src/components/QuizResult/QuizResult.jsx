@@ -34,9 +34,7 @@ const QuizResult = () => {
 	return (
 		<div className='w-full min-h-screen relative bg-gray-100 flex flex-col justify-center items-center overflow-x-hidden text-white'>
 			<div className='text-black fixed top-0 flex items-center justify-center bg-white border border-gray-400 p-2 w-full'>
-				<div className='container flex justify-between items-center px-10 md:px-24 xl:px-56'>
-					<h1>QuizHeader Here</h1>
-
+				<div className='container flex justify-end items-center px-10 md:px-24 xl:px-56'>
 					<button
 						onClick={(e) => navigate('/home/dashboard')}
 						className='px-5 mt-2 py-2 bg-gray-600 text-white text-sm'
@@ -47,7 +45,7 @@ const QuizResult = () => {
 			</div>
 
 			<div className='container overflow-hidden relative bg-white border border-gray-300 shadow-xl flex flex-col space-y-6 items-center mx-10 pt-10 md:mx-0'>
-				<h2 className='mx-5 font-bold text-lg text-black z-20'>Поздровляем! вы прошли тест</h2>
+				<h2 className='mx-5 font-semibold text-xl text-black z-20'>Вы прошли тест</h2>
 
 				<div className='bg-purple-400 flex flex-col items-center z-20 justify-center space-y-2 w-40 h-40 shadow-lg rounded-full text-white'>
 					<span className='text-6xl'>{state?.userResults?.length}</span>

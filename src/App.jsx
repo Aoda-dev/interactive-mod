@@ -21,6 +21,7 @@ import CourseEdit from './components/CourseCreate/CourseEdit/CourseEdit'
 import CourseSection from './components/CourseCreate/CourseSection/CourseSection'
 import MyCoursesWalk from './components/Home/MyCoursesWalk/MyCoursesWalk'
 import MyCoursesWalkSection from './components/Home/MyCoursesWalkSection/MyCoursesWalkSection'
+import Author from './components/Home/Author'
 
 const App = () => {
 	const [firstLoad, setFirstLoad] = useState(true)
@@ -46,6 +47,7 @@ const App = () => {
 							</ProtectedRoute>
 						}
 					>
+						<Route path='author' element={<Author />} />
 						<Route path='dashboard' element={<Dashboard />} />
 						<Route path='myquizzes' element={<MyQuizzes />} />
 						<Route path='quizzes/:id' element={<MyQuizzesInside />} />

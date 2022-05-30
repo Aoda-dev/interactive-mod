@@ -15,7 +15,7 @@ import {
 	deleteDoc,
 } from 'firebase/firestore'
 
-import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from 'firebase/storage'
+import { getStorage, ref, uploadString, uploadBytes, getDownloadURL, deleteObject, getBlob } from 'firebase/storage'
 
 import { setLoading, setUser } from '../features/user/userSlice'
 import {
@@ -321,6 +321,70 @@ export const getOneCourseSection = async (id) => {
 	}
 
 	return result
+}
+
+export const setDocumentToFirestore = async (data) => {
+	const docRef = await addDoc(collection(db, 'documents'), data)
+	return docRef.id
+}
+
+export const deleteOneDocumentFromFirestore = async (id, documentId) => {
+	await deleteDoc(doc(db, 'documents', id))
+	deleteObject(ref(storage, `documents/${documentId}`))
+		.then(() => {})
+		.catch((error) => console.log(error))
+}
+
+export const setDocumentToFirestorage = async (uid, data) => {
+	const storageRef = ref(storage, `documents/${uid}`)
+	await uploadBytes(storageRef, data)
+}
+
+export const getAllMyDocuments = async (sectionId) => {
+	const data = []
+	const q = query(collection(db, 'documents'), where('sectionId', '==', sectionId))
+	const querySnapshot = await getDocs(q)
+
+	querySnapshot.forEach((doc) => {
+		data.push({ id: doc.id, data: doc.data() })
+	})
+
+	for (let course of data) {
+		course.data.document = await getBlob(ref(storage, `documents/${course.data.id}`))
+	}
+
+	return data
+}
+
+export const getAllQuizzesFromFirestore = async () => {
+	const data = []
+	const querySnapshot = await getDocs(collection(db, 'quizzes'))
+	querySnapshot.forEach((doc) => {
+		data.push({ id: doc.id, data: doc.data() })
+	})
+
+	for (let course of data) {
+		course.data.imgSrc = await getDownloadURL(ref(storage, `images/${course.data.img}`))
+	}
+
+	return data
+}
+
+export const getAllCoursesFromFirestore = async () => {
+	const data = []
+	const querySnapshot = await getDocs(collection(db, 'courses'), where('publish', '==', true))
+
+	querySnapshot.forEach((doc) => {
+		data.push({ id: doc.id, data: doc.data() })
+	})
+
+	for (let course of data) {
+		if (course.data.imgId) {
+			course.data.img = await getDownloadURL(ref(storage, `images/${course.data.imgId}`))
+		}
+	}
+
+	return data
 }
 
 export default app

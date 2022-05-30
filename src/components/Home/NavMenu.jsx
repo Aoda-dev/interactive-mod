@@ -5,7 +5,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { signOutGoogle } from '../../firebase/firebase'
 
 import {
-	NavAboutProject,
+	AuthorIcon,
+	AuthorIconActive,
 	NavIconMain,
 	NavIconMainActive,
 	NavLogout,
@@ -78,11 +79,13 @@ const NavMenu = () => {
 					</Link>
 
 					<Link
-						to='/'
-						className='w-full inline-flex items-center space-x-6 font-thin uppercase hover:text-blue-500 p-4 my-2 transition-colors duration-200 justify-start'
+						to='/home/author'
+						className={`w-full inline-flex items-center space-x-6 font-thin uppercase ${
+							isLocation === 'author' ? 'text-blue-500' : 'hover:text-blue-500'
+						} p-4 my-2 transition-colors duration-200 justify-start ${isLocation === 'author' ? activeLink : null}`}
 					>
-						<NavAboutProject />
-						<span className='text-sm font-normal'>О проекте</span>
+						{isLocation === 'author' ? <AuthorIconActive /> : <AuthorIcon />}
+						<span className='text-sm font-normal'>Автор</span>
 					</Link>
 
 					<a

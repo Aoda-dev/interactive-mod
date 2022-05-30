@@ -28,7 +28,7 @@ const MyCoursesWalk = () => {
 	return (
 		<div className='w-full relative px-0 pb-20 md:px-0'>
 			<Header title={course?.course?.name} />
-			<Hero />
+			<Hero course={course} />
 			<Courses courseId={id} sections={sections} />
 		</div>
 	)

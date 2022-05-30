@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { signOutGoogle } from '../../firebase/firebase'
 import {
-	NavAboutProject,
+	AuthorIcon,
+	AuthorIconActive,
 	NavIconMain,
 	NavIconMainActive,
 	NavLogout,
@@ -27,7 +28,7 @@ const FooterNav = () => {
 	}
 
 	return (
-		<div className='fixed bottom-0 flex justify-center items-center bg-white w-full border border-slate-500 lg:hidden'>
+		<div className='fixed z-50 bottom-0 flex justify-center items-center bg-white w-full border border-slate-500 lg:hidden'>
 			<div className='container flex justify-between items-center mx-8 sm:mx-1'>
 				<div
 					onClick={() => navigate('/home/dashboard')}
@@ -53,9 +54,12 @@ const FooterNav = () => {
 					<span className='hidden text-sm sm:block'>Мои курсы</span>
 				</div>
 
-				<div onClick={() => navigate('/')} className='flex flex-col p-4 cursor-pointer items-center justify-center'>
-					<NavAboutProject stroke={1} />
-					<span className='hidden text-sm sm:block'>О проекте</span>
+				<div
+					onClick={() => navigate('/home/author')}
+					className='flex flex-col p-4 cursor-pointer items-center justify-center'
+				>
+					{isLocation === 'author' ? <AuthorIconActive /> : <AuthorIcon stroke={1} />}
+					<span className='hidden text-sm sm:block'>Автор</span>
 				</div>
 
 				<div onClick={signOut} className='flex flex-col p-4 cursor-pointer items-center justify-center'>
